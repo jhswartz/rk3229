@@ -1,0 +1,193 @@
+diff --git a/arch/arm/mach-rockchip/Makefile b/arch/arm/mach-rockchip/Makefile
+index 846c82d70a..91cfd66519 100644
+--- a/arch/arm/mach-rockchip/Makefile
++++ b/arch/arm/mach-rockchip/Makefile
+@@ -41,7 +41,7 @@ endif
+ obj-$(CONFIG_$(SPL_TPL_)RAM) += sdram_common.o
+ 
+ ifndef CONFIG_ARM64
+-ifndef CONFIG_ROCKCHIP_RK3188
++ifeq ($(CONFIG_ROCKCHIP_RK3188)$(CONFIG_ROCKCHIP_RK322X),)
+ obj-y += rk_timer.o
+ endif
+ endif
+diff --git a/arch/arm/mach-rockchip/rk322x-board-tpl.c b/arch/arm/mach-rockchip/rk322x-board-tpl.c
+index 92d40ee43a..dbbaabfe39 100644
+--- a/arch/arm/mach-rockchip/rk322x-board-tpl.c
++++ b/arch/arm/mach-rockchip/rk322x-board-tpl.c
+@@ -17,6 +17,17 @@ u32 spl_boot_device(void)
+ 	return BOOT_DEVICE_MMC1;
+ }
+ 
++static void rockchip_stimer_init(void)
++{
++	asm volatile("mcr p15, 0, %0, c14, c0, 0"
++		     : : "r"(COUNTER_FREQUENCY));
++
++	writel(0, ROCKCHIP_STIMER_BASE + 0x10);
++	writel(0xffffffff, ROCKCHIP_STIMER_BASE);
++	writel(0xffffffff, ROCKCHIP_STIMER_BASE + 4);
++	writel(1, ROCKCHIP_STIMER_BASE + 0x10);
++}
++
+ void board_init_f(ulong dummy)
+ {
+ 	struct udevice *dev;
+@@ -39,8 +50,11 @@ void board_init_f(ulong dummy)
+ 		hang();
+ 	}
+ 
+-	rockchip_timer_init();
+-	printf("timer init done\n");
++	/* Init secure timer */
++	rockchip_stimer_init();
++	/* Init ARM arch timer in arch/arm/cpu/armv7/arch_timer.c */
++	timer_init();
++
+ 	ret = uclass_get_device(UCLASS_RAM, 0, &dev);
+ 	if (ret) {
+ 		printf("DRAM init failed: %d\n", ret);
+diff --git a/arch/arm/mach-rockchip/rk322x/rk322x.c b/arch/arm/mach-rockchip/rk322x/rk322x.c
+index e5250bc784..9fbd40d34f 100644
+--- a/arch/arm/mach-rockchip/rk322x/rk322x.c
++++ b/arch/arm/mach-rockchip/rk322x/rk322x.c
+@@ -5,7 +5,16 @@
+ #include <asm/io.h>
+ #include <asm/arch-rockchip/grf_rk322x.h>
+ #include <asm/arch-rockchip/hardware.h>
++/*
++#define CRU_MISC_CON		0x110e0134
++#define HDMI_PHY_CLK_SRC	(1 << 13)
+ 
++int arch_cpu_init(void)
++{
++        rk_clrreg(CRU_MISC_CON, HDMI_PHY_CLK_SRC);
++        return 0;
++}
++*/
+ #ifdef CONFIG_DEBUG_UART_BOARD_INIT
+ void board_debug_uart_init(void)
+ {
+diff --git a/drivers/ram/rockchip/sdram_rk322x.c b/drivers/ram/rockchip/sdram_rk322x.c
+index e96ac54c39..94893e17cf 100644
+--- a/drivers/ram/rockchip/sdram_rk322x.c
++++ b/drivers/ram/rockchip/sdram_rk322x.c
+@@ -16,7 +16,6 @@
+ #include <asm/arch-rockchip/grf_rk322x.h>
+ #include <asm/arch-rockchip/hardware.h>
+ #include <asm/arch-rockchip/sdram_rk322x.h>
+-#include <asm/arch-rockchip/timer.h>
+ #include <asm/arch-rockchip/uart.h>
+ #include <asm/arch-rockchip/sdram_common.h>
+ #include <asm/types.h>
+@@ -96,26 +95,26 @@ void phy_pctrl_reset(struct rk322x_cru *cru,
+ 			1 << DDRCTRL_PSRST_SHIFT | 1 << DDRCTRL_SRST_SHIFT |
+ 			1 << DDRPHY_PSRST_SHIFT | 1 << DDRPHY_SRST_SHIFT);
+ 
+-	rockchip_udelay(10);
++	udelay(10);
+ 
+ 	rk_clrreg(&cru->cru_softrst_con[5], 1 << DDRPHY_PSRST_SHIFT |
+ 						  1 << DDRPHY_SRST_SHIFT);
+-	rockchip_udelay(10);
++	udelay(10);
+ 
+ 	rk_clrreg(&cru->cru_softrst_con[5], 1 << DDRCTRL_PSRST_SHIFT |
+ 						  1 << DDRCTRL_SRST_SHIFT);
+-	rockchip_udelay(10);
++	udelay(10);
+ 
+ 	clrbits_le32(&ddr_phy->ddrphy_reg[0],
+ 		     SOFT_RESET_MASK << SOFT_RESET_SHIFT);
+-	rockchip_udelay(10);
++	udelay(10);
+ 	setbits_le32(&ddr_phy->ddrphy_reg[0],
+ 		     SOFT_DERESET_ANALOG);
+-	rockchip_udelay(5);
++	udelay(5);
+ 	setbits_le32(&ddr_phy->ddrphy_reg[0],
+ 		     SOFT_DERESET_DIGITAL);
+ 
+-	rockchip_udelay(1);
++	udelay(1);
+ }
+ 
+ void phy_dll_bypass_set(struct rk322x_ddr_phy *ddr_phy, u32 freq)
+@@ -154,7 +153,7 @@ static void send_command(struct rk322x_ddr_pctl *pctl,
+ 			 u32 rank, u32 cmd, u32 arg)
+ {
+ 	writel((START_CMD | (rank << 20) | arg | cmd), &pctl->mcmd);
+-	rockchip_udelay(1);
++	udelay(1);
+ 	while (readl(&pctl->mcmd) & START_CMD)
+ 		;
+ }
+@@ -167,7 +166,7 @@ static void memory_init(struct chan_info *chan,
+ 
+ 	if (dramtype == DDR3) {
+ 		send_command(pctl, 3, DESELECT_CMD, 0);
+-		rockchip_udelay(1);
++		udelay(1);
+ 		send_command(pctl, 3, PREA_CMD, 0);
+ 		send_command(pctl, 3, MRS_CMD,
+ 			     (0x02 & BANK_ADDR_MASK) << BANK_ADDR_SHIFT |
+@@ -196,17 +195,17 @@ static void memory_init(struct chan_info *chan,
+ 			     (0x63 & LPDDR23_MA_MASK) << LPDDR23_MA_SHIFT |
+ 			     (0 & LPDDR23_OP_MASK) <<
+ 			     LPDDR23_OP_SHIFT);
+-		rockchip_udelay(10);
++		udelay(10);
+ 		send_command(pctl, 3, MRS_CMD,
+ 			     (0x10 & LPDDR23_MA_MASK) << LPDDR23_MA_SHIFT |
+ 			     (0xff & LPDDR23_OP_MASK) <<
+ 			     LPDDR23_OP_SHIFT);
+-		rockchip_udelay(1);
++		udelay(1);
+ 		send_command(pctl, 3, MRS_CMD,
+ 			     (0x10 & LPDDR23_MA_MASK) << LPDDR23_MA_SHIFT |
+ 			     (0xff & LPDDR23_OP_MASK) <<
+ 			     LPDDR23_OP_SHIFT);
+-		rockchip_udelay(1);
++		udelay(1);
+ 		send_command(pctl, 3, MRS_CMD,
+ 			     (1 & LPDDR23_MA_MASK) << LPDDR23_MA_SHIFT |
+ 			     (sdram_params->phy_timing.mr[1] &
+@@ -243,7 +242,7 @@ static u32 data_training(struct chan_info *chan)
+ 			DQS_SQU_CAL_SEL_CS0);
+ 	setbits_le32(&ddr_phy->ddrphy_reg[2], DQS_SQU_CAL_START);
+ 
+-	rockchip_udelay(30);
++	udelay(30);
+ 	ret = readl(&ddr_phy->ddrphy_reg[0xff]);
+ 
+ 	clrbits_le32(&ddr_phy->ddrphy_reg[2],
+@@ -367,9 +366,9 @@ static void phy_softreset(struct dram_info *dram)
+ 
+ 	writel(GRF_DDRPHY_BUFFEREN_CORE_EN, &grf->soc_con[0]);
+ 	clrbits_le32(&ddr_phy->ddrphy_reg[0], 0x3 << 2);
+-	rockchip_udelay(1);
++	udelay(1);
+ 	setbits_le32(&ddr_phy->ddrphy_reg[0], 1 << 2);
+-	rockchip_udelay(5);
++	udelay(5);
+ 	setbits_le32(&ddr_phy->ddrphy_reg[0], 1 << 3);
+ 	writel(GRF_DDRPHY_BUFFEREN_CORE_DIS, &grf->soc_con[0]);
+ }
+diff --git a/include/configs/rk322x_common.h b/include/configs/rk322x_common.h
+index 15bb8d63b8..85647aeb8b 100644
+--- a/include/configs/rk322x_common.h
++++ b/include/configs/rk322x_common.h
+@@ -13,9 +13,10 @@
+ #define CONFIG_SYS_CBSIZE		1024
+ #define CONFIG_SYS_BOOTM_LEN	(64 << 20)	/*  64M */
+ 
+-#define CONFIG_SYS_TIMER_RATE		(24 * 1000 * 1000)
+-#define CONFIG_SYS_TIMER_BASE		0x110c00a0 /* TIMER5 */
+-#define CONFIG_SYS_TIMER_COUNTER	(CONFIG_SYS_TIMER_BASE + 8)
++#define ROCKCHIP_STIMER_BASE		0x110d0020
++
++#define COUNTER_FREQUENCY		24000000
++#define CONFIG_SYS_HZ_CLOCK		24000000
+ 
+ #define CONFIG_SYS_INIT_SP_ADDR		0x61100000
+ #define CONFIG_SYS_LOAD_ADDR		0x61800800

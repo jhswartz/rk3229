@@ -1,0 +1,12 @@
+diff --git a/include/dt-bindings/clock/rk3228-cru.h b/include/dt-bindings/clock/rk3228-cru.h
+index 3b245e3df8da..de550ea56eeb 100644
+--- a/include/dt-bindings/clock/rk3228-cru.h
++++ b/include/dt-bindings/clock/rk3228-cru.h
+@@ -64,6 +64,7 @@
+ #define SCLK_WIFI		141
+ #define SCLK_OTGPHY0		142
+ #define SCLK_OTGPHY1		143
++#define SCLK_HDMI_PHY		144
+ 
+ /* dclk gates */
+ #define DCLK_VOP		190

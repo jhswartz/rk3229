@@ -1,0 +1,17 @@
+diff --git a/arch/arm/dts/rk3229-evb.dts b/arch/arm/dts/rk3229-evb.dts
+index 632cdc9bc3..c513656411 100644
+--- a/arch/arm/dts/rk3229-evb.dts
++++ b/arch/arm/dts/rk3229-evb.dts
+@@ -66,11 +66,11 @@
+ };
+ 
+ &emmc {
+-	u-boot,dm-pre-reloc;
+ 	status = "okay";
+ };
+ 
+ &sdmmc {
++	u-boot,dm-pre-reloc;
+ 	status = "okay";
+ 	bus-width = <4>;
+ 	cap-mmc-highspeed;
