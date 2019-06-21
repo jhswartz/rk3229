@@ -13,6 +13,8 @@
 
 ### Prepare the build environment
 
+Substitute *arm-linux-gnueabihf-* with your toolchain's target triplet, if needed.
+
 ```
 $ mkdir build
 $ build() { log=$1; shift 1; (date; echo; time make $@) 2>&1 | tee $log; }
@@ -23,27 +25,26 @@ $ export CROSS_COMPILE=arm-linux-gnueabihf-
 
 ### Build OP-TEE
 
-Tested against *commit a30ddda9e48886e96696b130bfb8d9228fe589d9*
-
 ```
 $ cd $BUILD
 $ git clone https://github.com/OP-TEE/optee_os.git
 $ cd optee_os
+$ git checkout 3.5.0
 $ build build-optee.log CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 DEBUG=1 PLATFORM=rockchip-rk322x -j2
 ```
 
 ### Build U-Boot
 
-Tested against *commit 6d277fb0ed145f82dd50cc6e99d2fa553a588c3b*
-
 ```
 $ cd $BUILD
 $ git clone git://git.denx.de/u-boot.git
 $ cd u-boot
+$ git checkout v2019.07-rc4
+$ git checkout -b v2019.07-rc4/rk3229
 $ patch -Np1 < ../../patch/u-boot/enable-arch-timer.patch 
 $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch 
-$ cp ../../config/u-boot.config .config
 $ cp ../optee_os/out/arm-plat-rockchip/core/tee-pager.bin tee.bin
+$ cp ../../config/u-boot.config .config
 $ make oldconfig
 $ build build-uboot.log -j2 
 $ build build-itb.log u-boot.itb -j2
@@ -71,7 +72,7 @@ You may need to clear the eMMC's loader at sector 64 to boot from an SD card.
 # dterm /dev/ttyUSB0 1500000 8 n 1
 TPL InitReturning to boot ROM...
 
-U-Boot SPL 2019.07-rc3-00112-g6d277fb0ed-dirty (Jun 20 2019 - 13:53:19 +0000)
+U-Boot SPL 2019.07-rc4-dirty (Jun 21 2019 - 09:01:56 +0000)
 Trying to boot from MMC1
 D/TC:0 0 add_phys_mem:576 VCORE_UNPG_RX_PA type TEE_RAM_RX 0x68400000 size 0x00052000
 D/TC:0 0 add_phys_mem:576 VCORE_UNPG_RW_PA type TEE_RAM_RW 0x68452000 size 0x000ae000
@@ -120,7 +121,7 @@ I/TC: Initialized
 D/TC:0 0 init_primary_helper:1105 Primary CPU switching to normal world boot
 
 
-U-Boot 2019.07-rc3-00112-g6d277fb0ed-dirty (Jun 20 2019 - 13:53:46 +0000)
+U-Boot 2019.07-rc4-dirty (Jun 21 2019 - 09:05:43 +0000)
 
 Model: Rockchip RK3229 Evaluation board
 DRAM:  1022 MiB
