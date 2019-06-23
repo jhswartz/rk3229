@@ -147,6 +147,9 @@ Be sure to stop autoboot!
 => mmc list
 dwmmc@30000000: 1
 dwmmc@30020000: 0 (eMMC)
+=> mmc dev 1
+switch to partitions #0, OK
+mmc1 is current device
 => mmc info
 Device: dwmmc@30000000
 Manufacturer ID: 28
@@ -160,9 +163,6 @@ High Capacity: Yes
 Capacity: 14.9 GiB
 Bus Width: 4-bit
 Erase Group Size: 512 Bytes
-=> mmc dev 1
-switch to partitions #0, OK
-mmc1 is current device
 => gpt write mmc 1 $partitions
 Writing GPT: success!
 => gpt verify mmc 1 $partitions
