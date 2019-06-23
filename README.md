@@ -230,6 +230,8 @@ $ build build-modules.log -j2 modules
 
 ### Prepare the boot filesystem
 
+Insert the SD card into your host's reader.
+
 ```
 # cd $BUILD
 # mkfs.vfat /dev/mmcblk0p4
@@ -287,6 +289,8 @@ none		/sys/kernel/debug	debugfs		defaults	0	0
 ```
 
 ### Boot
+
+Remvove the SD card from the host's reader, insert the SD card into the device, connect to UART2 (1500000 baud 8N1), and supply power to the device.
 
 ```
 # dterm /dev/ttyUSB0 1500000 8 n 1
