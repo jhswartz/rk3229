@@ -1,5 +1,12 @@
 # RK3229 Unyoked
 
+### Acknowledgement
+
+Thank you to the following people for their assistance in making this process possible.
+
+- Heiko Stübner
+- Fabio Bassa
+
 ### Prequisites
 
 - An RK3229 based device
@@ -199,6 +206,30 @@ Part    Start LBA       End LBA         Name
 
 Disconnect power from the device and remove the SD card.
 
+### Build Linux
+
+```
+$ cd $BUILD
+$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+$ cd linux
+$ git checkout v5.2-rc5
+$ git checkout -b v5.2-rc5/rk3229
+$ patch -Np1 < ../../patch/linux/clk-rockchip-add-1.464GHz-cpu-clock-rate-to-rk3228.patch
+$ patch -Np1 < ../../patch/linux/drm-rockchip-dw_hdmi-add-basic-rk3228-support.patch
+$ patch -Np1 < ../../patch/linux/clk-rockchip-add-clock-id-for-hdmi_phy-special-clock.patch
+$ patch -Np1 < ../../patch/linux/clk-rockchip-export-HDMIPHY-clock.patch
+$ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-add-display-nodes-for-rk322x.patch
+$ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-fix-vop-iommu-cells-on-rk322x.patch
+$ patch -Np1 < ../../patch/linux/ARM-dts-add-device-tree-for-Mecer-Xtreme-Mini-S6.patch
+$ cp ../../config/linux.config .config
+$ make oldconfig
+$ build build-zImage.log -j2 zImage                                                                                                                                               
+$ build build-dtbs.log -j2 dtbs
+$ build build-modules.log -j2 modules
+# build build-modules_install.log -j2 INSTALL_MOD_PATH=$ROOTFS modules_install
+# umount $ROOTFS
+```
+
 ### Prepare the boot filesystem
 
 ```
@@ -247,30 +278,6 @@ none		/tmp			tmpfs		defaults	0	0
 none		/sys/kernel/debug	debugfs		defaults	0	0
 [^D]
 # exit
-```
-
-### Build Linux
-
-```
-$ cd $BUILD
-$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
-$ cd linux
-$ git checkout v5.2-rc5
-$ git checkout -b v5.2-rc5/rk3229
-$ patch -Np1 < ../../patch/linux/clk-rockchip-add-1.464GHz-cpu-clock-rate-to-rk3228.patch
-$ patch -Np1 < ../../patch/linux/drm-rockchip-dw_hdmi-add-basic-rk3228-support.patch
-$ patch -Np1 < ../../patch/linux/clk-rockchip-add-clock-id-for-hdmi_phy-special-clock.patch
-$ patch -Np1 < ../../patch/linux/clk-rockchip-export-HDMIPHY-clock.patch
-$ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-add-display-nodes-for-rk322x.patch
-$ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-fix-vop-iommu-cells-on-rk322x.patch
-$ patch -Np1 < ../../patch/linux/ARM-dts-add-device-tree-for-Mecer-Xtreme-Mini-S6.patch
-$ cp ../../config/linux.config .config
-$ make oldconfig
-$ build build-zImage.log -j2 zImage                                                                                                                                               
-$ build build-dtbs.log -j2 dtbs
-$ build build-modules.log -j2 modules
-# build build-modules_install.log -j2 INSTALL_MOD_PATH=$ROOTFS modules_install
-# umount $ROOTFS
 ```
 
 ### Boot
