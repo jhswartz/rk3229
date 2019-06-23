@@ -72,8 +72,9 @@ Replace *mmcblk0* with the actual block device associated with your SD card.
 
 ### Test boot from SD Card
 
+**NB: You may need to erase the eMMC, or at least clear the eMMC's loader, to be able to boot from an SD card.**
+
 Insert the SD card, connect to UART2 (1500000 baud 8N1), and supply power to the device.
-You may need to clear the eMMC's loader at sector 64 to boot from an SD card.
 
 ```
 # dterm /dev/ttyUSB0 1500000 8 n 1
@@ -290,7 +291,7 @@ none		/sys/kernel/debug	debugfs		defaults	0	0
 
 ### Boot
 
-Remvove the SD card from the host's reader, insert the SD card into the device, connect to UART2 (1500000 baud 8N1), and supply power to the device.
+Remove the SD card from the host's reader, insert the SD card into the device, connect to UART2 (1500000 baud 8N1), and supply power to the device.
 
 ```
 # dterm /dev/ttyUSB0 1500000 8 n 1
