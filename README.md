@@ -223,11 +223,9 @@ $ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-fix-vop-iommu-cells-on-rk322x.
 $ patch -Np1 < ../../patch/linux/ARM-dts-add-device-tree-for-Mecer-Xtreme-Mini-S6.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
-$ build build-zImage.log -j2 zImage                                                                                                                                               
+$ build build-zImage.log -j2 zImage
 $ build build-dtbs.log -j2 dtbs
 $ build build-modules.log -j2 modules
-# build build-modules_install.log -j2 INSTALL_MOD_PATH=$ROOTFS modules_install
-# umount $ROOTFS
 ```
 
 ### Prepare the boot filesystem
@@ -252,7 +250,7 @@ label default
 # umount $BOOT
 ```
 
-### Prepare the rootfs
+### Prepare the root filesystem
 
 ```
 # mkfs.ext2 /dev/mmcblk0p5
@@ -278,6 +276,14 @@ none		/tmp			tmpfs		defaults	0	0
 none		/sys/kernel/debug	debugfs		defaults	0	0
 [^D]
 # exit
+```
+
+### Install Linux kernel modules to the root filsystem
+
+```
+# cd $BUILD/linux
+# build build-modules_install.log -j2 INSTALL_MOD_PATH=$ROOTFS modules_install
+# umount $ROOTFS
 ```
 
 ### Boot
