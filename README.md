@@ -12,6 +12,10 @@
     - eMMC Installation: OK
     - SD Card Installation: OK
 
+- MXQ 4K
+    - eMMC Installation: Pending
+    - SD Card Installation: OK
+
 ### Acknowledgement
 
 Thank you to the following people for their assistance in making this process possible.
