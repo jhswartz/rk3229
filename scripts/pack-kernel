@@ -1,0 +1,79 @@
+#!/bin/sh
+
+usage()
+{
+	echo "usage: pack-kernel INPUT OUTPUT OUTPUT-SIZE"
+}
+
+confirmInputReadability()
+{
+	if ! [ -r "$1" ]
+	then
+		echo "Can't read input file"
+		exit 1
+	fi
+}
+
+confirmAdequateOutputSize()
+{
+	if [ $(($2)) -lt $((8 + $1)) ]
+	then
+		echo "Output would be truncated"
+		exit 1
+	fi
+}
+
+convert32BitIntegerToByteString()
+{
+	byte="[0-f][0-f]"
+	capture="\($byte\)\($byte\)\($byte\)\($byte\)"
+	references="\4\3\2\1"
+	env printf "%08x" $1 | sed -e "s/^$capture/$references/g" | xxd -r -p
+}
+
+writeKernelHeader()
+{
+	env printf "KRNL"                  | dd of=$2 bs=4
+	convert32BitIntegerToByteString $1 | dd of=$2 bs=4 seek=1
+}
+
+writeKernelPayload()
+{
+	dd if=$1 of=$2 bs=8 seek=1 
+}
+
+resizeOutput()
+{
+	truncate -s $(($2)) $1
+}
+
+main()
+{
+	if [ $# -ne 3 ]
+	then
+		usage
+		exit 2
+	fi
+
+	input=$1
+	output=$2
+	output_size=$3
+
+	input_size=`stat --format=%s "$input"`
+
+	if [ $? -ne 0 ]
+	then
+		echo "Unable to determine input size"
+		exit 1
+	fi
+
+	confirmInputReadability "$input"
+	confirmAdequateOutputSize "$input_size" "$output_size"
+
+	writeKernelHeader "$input_size" "$output"
+	writeKernelPayload "$input" "$output"
+
+	resizeOutput "$output" "$output_size"
+}
+
+main "$@"

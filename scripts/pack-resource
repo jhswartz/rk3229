@@ -1,0 +1,89 @@
+#!/bin/sh
+
+usage()
+{
+	echo "usage: pack-resource INPUT OUTPUT OUTPUT-SIZE"
+}
+
+confirmInputReadability()
+{
+	if ! [ -r "$1" ]
+	then
+		echo "Can't read input file"
+		exit 1
+	fi
+}
+
+confirmAdequateOutputSize()
+{
+	if [ $(($2)) -lt $((0x400 + $1)) ]
+	then
+		echo "Output would be truncated"
+		exit 1
+	fi
+}
+
+writeResourceHeader()
+{
+	env printf "RSCE"             | dd of=$1 bs=4
+	env printf "\x01\x01\x01\x00" | dd of=$1 bs=4 seek=2
+	env printf "\x01\x00\x00\x00" | dd of=$1 bs=4 seek=3
+}
+
+convert32BitIntegerToByteString()
+{
+	byte="[0-f][0-f]"
+	capture="\($byte\)\($byte\)\($byte\)\($byte\)"
+	references='\4\3\2\1'
+	env printf "%08x" $1 | sed -e "s/^$capture/$references/g" | xxd -r -p
+}
+
+writeDeviceTreeEntry()
+{
+	env printf "ENTR"                  | dd of=$2 bs=4 seek=128
+	env printf "rk-kernel.dtb"         | dd of=$2 bs=4 seek=129
+	env printf "\x02\x00\x00\x00"      | dd of=$2 bs=4 seek=193
+	convert32BitIntegerToByteString $1 | dd of=$2 bs=4 seek=194
+}
+
+writeDeviceTreePayload()
+{
+	dd if=$1 of=$2 bs=512 seek=2
+}
+
+resizeOutput()
+{
+	truncate -s $(($2)) $1
+}
+
+main()
+{
+	if [ $# -ne 3 ]
+	then
+		usage
+		exit 2
+	fi
+
+	input=$1
+	output=$2
+	output_size=$3
+
+	input_size=`stat --format=%s "$input"`
+
+	if [ $? -ne 0 ]
+	then
+		echo "Unable to determine input size"
+		exit 1
+	fi
+
+	confirmInputReadability "$input"
+	confirmAdequateOutputSize "$input_size" "$output_size"
+
+	writeResourceHeader "$output"
+	writeDeviceTreeEntry "$input_size" "$output"
+	writeDeviceTreePayload "$input" "$output"
+
+	resizeOutput "$output" "$output_size"
+}
+
+main "$@"
