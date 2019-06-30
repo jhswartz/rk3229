@@ -1,5 +1,6 @@
 # Unyoke your RK3229
 
+
 ### Documentation
 
 - ##### Build
@@ -17,17 +18,24 @@
      This approach uses the bootloader and Rockchip partitioning scheme shipped on your eMMC.
      - [eMMC Partition Replacement](EMMC-REPLACEMENT.md)
 
+
 ### Devices Tested
 
 - Mecer Xtreme Mini S6
-    - Partition Replacement: Pending
+    - eMMC Partition Replacement: OK (but unresponsive after 30 minutes)
     - eMMC Installation: OK
     - SD Card Installation: OK
 
 - MXQ 4K
+    - eMMC Partition Replacement: Pending
+    - eMMC Installation: Pending
+    - SD Card Installation: OK
+
+- MXQ-Pro 4K
     - Partition Replacement: Pending
     - eMMC Installation: Pending
     - SD Card Installation: OK
+
 
 ### Acknowledgement
 
