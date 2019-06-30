@@ -78,6 +78,7 @@ The following commands bootstrap the current stable release of Devuan, if you wi
 none            /tmp                    tmpfs           defaults        0       0
 none            /sys/kernel/debug       debugfs         defaults        0       0
 EOF
+# apt-get update 
 # apt-get install busybox 
 # busybox --list-full > /tmp/applets
 # exit
@@ -148,7 +149,7 @@ EOF
 ### Pack the partition images
 
 ```
-# $SCRIPTS/pack-resource $BUILD/arch/arm/boot/dts/rk3229-xms6.dtb $REPLACEMENT/resource.img $((0x7800 * 512))
+# $SCRIPTS/pack-resource $BUILD/linux/arch/arm/boot/dts/rk3229-xms6.dtb $REPLACEMENT/resource.img $((0x7800 * 512))
 # $SCRIPTS/pack-kernel $BUILD/linux/arch/arm/boot/zImage $REPLACEMENT/kernel.img $((0x6000 * 512))
 # $SCRIPTS/pack-kernel $BUILD/initrd.gz $REPLACEMENT/boot.img $((0xc000 * 512))
 ```
