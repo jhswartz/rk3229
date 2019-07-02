@@ -21,17 +21,17 @@
 
 ### Devices Tested
 
-- Mecer Xtreme Mini S6
+- ##### Mecer Xtreme Mini S6
     - eMMC Partition Replacement: OK (but unresponsive after 30 minutes)
     - eMMC Installation: OK
     - SD Card Installation: OK
 
-- MXQ 4K
+- ##### MXQ 4K
     - eMMC Partition Replacement: Pending
     - eMMC Installation: Pending
     - SD Card Installation: OK
 
-- MXQ-Pro 4K
+- ##### MXQ-Pro 4K
     - eMMC Partition Replacement: Pending
     - eMMC Installation: Pending
     - SD Card Installation: OK
