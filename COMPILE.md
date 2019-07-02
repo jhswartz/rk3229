@@ -1,11 +1,13 @@
 # Compile OP-TEE, U-Boot and Linux for RK3229
 
+
 ### Prequisites
 
 - A host computer running a UNIX-like operating system
 - An armhf toolchain
 - GNU make
 - git
+
 
 ### Prepare the build environment
 
@@ -19,6 +21,7 @@ $ export ARCH=arm
 $ export CROSS_COMPILE=arm-linux-gnueabihf-
 ```
 
+
 ### Build OP-TEE
 
 ```
@@ -29,6 +32,7 @@ $ git checkout 3.5.0
 $ build build-optee.log CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 DEBUG=1 PLATFORM=rockchip-rk322x -j2
 ```
 
+
 ### Build U-Boot
 
 ```
@@ -38,6 +42,15 @@ $ cd u-boot
 $ git checkout v2019.07-rc4
 $ git checkout -b v2019.07-rc4/rk3229
 $ patch -Np1 < ../../patch/u-boot/enable-arch-timer.patch 
+```
+
+Apply the following patch only if your device does not have an eMMC or, like the MXQ 4K and MXQ Pro 4K, it has an eMMC that is not detected by U-Boot in its present state.
+
+```
+$ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
+```
+
+```
 $ cp ../optee_os/out/arm-plat-rockchip/core/tee-pager.bin tee.bin
 $ cp ../../config/u-boot.config .config
 $ make oldconfig
@@ -46,6 +59,7 @@ $ build build-itb.log u-boot.itb -j2
 $ tools/mkimage -n rk322x -T rksd -d tpl/u-boot-tpl.bin loader.img
 $ cat spl/u-boot-spl.bin >> loader.img 
 ```
+
 
 ### Build Linux
 
