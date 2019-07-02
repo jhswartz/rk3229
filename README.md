@@ -32,7 +32,7 @@
     - SD Card Installation: OK
 
 - MXQ-Pro 4K
-    - Partition Replacement: Pending
+    - eMMC Partition Replacement: Pending
     - eMMC Installation: Pending
     - SD Card Installation: OK
 
