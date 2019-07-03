@@ -19,18 +19,29 @@
      - [Onboard Flash Partition Replacement](PARTITION-REPLACEMENT.md)
 
 
-### Devices Tested
+### Testing
 
 - ##### Mecer Xtreme Mini S6
-    - Onboard Flash Partition Replacement: OK (though unresponsive after 30 minutes)
-    - eMMC Installation: OK
-    - SD/MMC Installation: OK
+    | Procedure                            | Status  | Notes                         |
+    |--------------------------------------|---------|-------------------------------|
+    | U-Boot + Linux Installation (eMMC)   | OK      | -                             |
+    | U-Boot + Linux Installation (SD/MMC) | OK      | -                             |
+    | Onboard Flash Partition Replacement  | OK      | Unresponsive after 30 minutes |
+
 
 - ##### MXQ 4K
-    - SD/MMC Installation: OK
+    | Procedure                            | Status         | Notes                         |
+    |--------------------------------------|----------------|-------------------------------|
+    | U-Boot + Linux Installation (eMMC)   | Not Applicable | Device has onboard NAND flash |
+    | U-Boot + Linux Installation (SD/MMC) | OK             | -                             |
+    | Onboard Flash Partition Replacement  | Pending        | -                             |
 
 - ##### MXQ-Pro 4K
-    - SD/MMC Installation: OK
+    | Procedure                            | Status         | Notes                         |
+    |--------------------------------------|----------------|-------------------------------|
+    | U-Boot + Linux Installation (eMMC)   | Not Applicable | Device has onboard NAND flash |
+    | U-Boot + Linux Installation (SD/MMC) | OK             | -                             |
+    | Onboard Flash Partition Replacement  | Pending        | -                             |
 
 
 ### Acknowledgement
