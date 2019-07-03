@@ -3,7 +3,7 @@
 
 ### Warning 
 
-- This guide is written from the perspective of a device that features eMMC storage and not NAND flash as used on boards such as those found in MXQ devices. The process should be similar for those devices with NAND based storage, although Linux block device naming may differ.
+This guide is written from the perspective of a device whose board features an eMMC and not NAND flash.
 
 
 ### Prerequisites
