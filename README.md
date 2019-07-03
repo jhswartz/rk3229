@@ -7,15 +7,23 @@
 
      - [Compile OP-TEE, U-Boot and Linux for RK3229](COMPILE.md)
 
+
 - #### Full Installation
 
-     This approach does not rely on any software that was shipped on your device's onboard flash memory. *This will not work for devices that have onboard NAND flash, as neither mainline U-Boot nor mainline Linux have support for the Rockchip NAND controller.*
+     This approach does not rely on any software that was shipped on your device's onboard flash memory.
+
+     *This will not work for devices that have onboard NAND flash, as neither mainline U-Boot nor mainline Linux have support for the Rockchip NAND controller.*
+
      - [U-Boot + Linux Installation (eMMC)](EMMC-INSTALL.md)
      - [U-Boot + Linux Installation (SD/MMC)](SDMMC-INSTALL.md)
 
+
 - #### Partition Replacement
 
-     This approach uses the bootloader and Rockchip partitioning scheme shipped on your device's onboard flash memory. *This will not work for devices that have onboard NAND flash, as mainline Linux does not have a driver for the Rockchip NAND controller.*
+     This approach uses the bootloader and Rockchip partitioning scheme shipped on your device's onboard flash memory.
+
+     *This will not work for devices that have onboard NAND flash, as mainline Linux does not have a driver for the Rockchip NAND controller.*
+
      - [Onboard Flash Partition Replacement](PARTITION-REPLACEMENT.md)
 
 
