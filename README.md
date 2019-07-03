@@ -16,7 +16,7 @@
 - ##### Partition Replacement
 
      This approach uses the bootloader and Rockchip partitioning scheme shipped on your device's onboard flash memory. *This is the only internal approach that is likely to work with the current U-Boot configuration for boards that feature onboard NAND flash instead of an eMMC.*
-     - [Onboard Flash Partition Replacement](ONBOARD-FLASH-REPLACEMENT.md)
+     - [Onboard Flash Partition Replacement](PARTITION-REPLACEMENT.md)
 
 
 ### Devices Tested
