@@ -101,7 +101,7 @@ Hit any key to stop autoboot:  2
 Hit any key before the autoboot countdown elapses.
 
 
-### Allow U-Boot to partition the eMMC
+### Allow U-Boot to partition the SD card
 
 ```
 => mmc list
