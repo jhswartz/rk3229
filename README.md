@@ -9,32 +9,28 @@
 
 - ##### Full Installation
 
-     This approach does not rely on any software that was shipped on your device's eMMC.
-     - [U-Boot + Linux Installation to eMMC](EMMC-INSTALL.md)
-     - [U-Boot + Linux Installation to SD Card](SD-INSTALL.md)
+     This approach does not rely on any software that was shipped on your device's onboard flash memory. Installation to onboard NAND flash is currently not supported in the current U-Boot configuration.
+     - [U-Boot + Linux Installation (eMMC)](EMMC-INSTALL.md)
+     - [U-Boot + Linux Installation (SD/MMC)](SDMMC-INSTALL.md)
 
 - ##### Partition Replacement
 
-     This approach uses the bootloader and Rockchip partitioning scheme shipped on your eMMC.
-     - [eMMC Partition Replacement](EMMC-REPLACEMENT.md)
+     This approach uses the bootloader and Rockchip partitioning scheme shipped on your device's onboard flash memory. It is currently the only means that is likely to work with the current U-Boot configuration for boards that feature onboard NAND flash instead of an eMMC.
+     - [Onboard Flash Partition Replacement](ONBOARD-FLASH-REPLACEMENT.md)
 
 
 ### Devices Tested
 
 - ##### Mecer Xtreme Mini S6
-    - eMMC Partition Replacement: OK (but unresponsive after 30 minutes)
+    - Onboard Flash Partition Replacement: OK (though unresponsive after 30 minutes)
     - eMMC Installation: OK
-    - SD Card Installation: OK
+    - SD/MMC Installation: OK
 
 - ##### MXQ 4K
-    - eMMC Partition Replacement: Pending
-    - eMMC Installation: Pending
-    - SD Card Installation: OK
+    - SD/MMC Installation: OK
 
 - ##### MXQ-Pro 4K
-    - eMMC Partition Replacement: Pending
-    - eMMC Installation: Pending
-    - SD Card Installation: OK
+    - SD/MMC Installation: OK
 
 
 ### Acknowledgement

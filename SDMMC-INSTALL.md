@@ -1,9 +1,9 @@
-# SD Card Installation
+# SD/MMC Installation
 
 
 ### Prerequisites
 
-- An RK3229 based device **without a loader installed on the eMMC**
+- An RK3229 based device **without a loader installed on the onboard flash memory**
 - An SD card reader for the host machine
 - A serial communications program for UART access
 - Compile [rkdeveloptool](https://github.com/rockchip-linux/rkdeveloptool)

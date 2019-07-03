@@ -1,9 +1,14 @@
-# eMMC Partition Replacement
+# Onboard Flash Partition Replacement
+
+
+### Warning 
+
+- This guide is written from the perspective of a device that features eMMC storage and not NAND flash as used on boards such as those found in MXQ devices. The process should be similar for those devices with NAND based storage, although Linux block device naming may differ.
 
 
 ### Prerequisites
 
-- An RK3229 based device, assumedly shipped with Android with all eMMC partitions still entact
+- An RK3229 based device, assumedly shipped with Android with all onboard flash partitions still entact
 - A USB-A Male cable to USB-A Male cable
 - Compile [rkflashtool](https://github.com/linux-rockchip/rkflashtool)
 - [Compile OP-TEE, U-Boot and Linux for RK3229](COMPILE.md)
@@ -29,7 +34,7 @@ $ mkdir $SYSTEM
 Insert one end of the USB-A Male to USB-A Male cable into your host computer, then press and hold the device's Loader button before inserting the other end of the cable into the device's Download USB port. Release the Loader button after a few seconds.
 
 
-### Enumerate eMMC partitions
+### Enumerate partitions
 
 Rockchip's branches of U-boot and the Linux kernel rely on a comma separated list of partition declarations, stored in the value of the **mtdparts** kernel command line parameter, to determine partition boundaries instead of using an on-disk partition table.
 
