@@ -44,7 +44,7 @@ $ git checkout -b v2019.07-rc4/rk3229
 $ patch -Np1 < ../../patch/u-boot/enable-arch-timer.patch 
 ```
 
-Apply the following patch only if your device does not have an eMMC or, like the MXQ 4K and MXQ Pro 4K, it has an eMMC that is not detected by U-Boot in its present state.
+Apply the following patch only if your device does not have an eMMC, like the MXQ 4K and MXQ Pro 4K, or it has an eMMC that is not detected by U-Boot in its present state.
 
 ```
 $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
