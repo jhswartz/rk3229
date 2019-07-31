@@ -67,14 +67,9 @@ $ cat spl/u-boot-spl.bin >> loader.img
 $ cd $BUILD
 $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
 $ cd linux
-$ git checkout v5.2-rc5
-$ git checkout -b v5.2-rc5/rk3229
-$ patch -Np1 < ../../patch/linux/clk-rockchip-add-1.464GHz-cpu-clock-rate-to-rk3228.patch
-$ patch -Np1 < ../../patch/linux/drm-rockchip-dw_hdmi-add-basic-rk3228-support.patch
-$ patch -Np1 < ../../patch/linux/clk-rockchip-add-clock-id-for-hdmi_phy-special-clock.patch
-$ patch -Np1 < ../../patch/linux/clk-rockchip-export-HDMIPHY-clock.patch
-$ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-add-display-nodes-for-rk322x.patch
-$ patch -Np1 < ../../patch/linux/ARM-dts-rockchip-fix-vop-iommu-cells-on-rk322x.patch
+$ git checkout v5.3-rc1
+$ git checkout -b v5.3-rc1/rk3229
+$ patch -Np1 < ../../patch/linux/v1-drm-modes-Don-t-apply-cmdline-s-rotation-if-it-wasn-t-specified.patch
 $ patch -Np1 < ../../patch/linux/ARM-dts-add-device-tree-for-Mecer-Xtreme-Mini-S6.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
