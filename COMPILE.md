@@ -67,9 +67,8 @@ $ cat spl/u-boot-spl.bin >> loader.img
 $ cd $BUILD
 $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
 $ cd linux
-$ git checkout v5.3-rc1
-$ git checkout -b v5.3-rc1/rk3229
-$ patch -Np1 < ../../patch/linux/v1-drm-modes-Don-t-apply-cmdline-s-rotation-if-it-wasn-t-specified.patch
+$ git checkout v5.3-rc3
+$ git checkout -b v5.3-rc3/rk3229
 $ patch -Np1 < ../../patch/linux/ARM-dts-add-device-tree-for-Mecer-Xtreme-Mini-S6.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
