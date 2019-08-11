@@ -1,4 +1,8 @@
-# Unyoke your RK3229
+# Unyoking my RK3229 devices
+
+This documentation, written purely for my own reference, details my experiences in installing GNU/Linux on a few devices that are based on Rockchip's RK3229 System-on-Chip.
+
+If you choose to follow this guide, think for yourself.
 
 
 ### Documentation
@@ -10,7 +14,7 @@
 
 - #### Full Installation
 
-     This approach does not rely on any software that was shipped on your device's onboard flash memory.
+     This approach does not rely on any software that was shipped by the vendor.
 
      *This will not work for devices that have onboard NAND flash instead of an eMMC, as neither mainline U-Boot nor mainline Linux have support for the Rockchip NAND controller.*
 
@@ -20,7 +24,7 @@
 
 - #### Partition Replacement
 
-     This approach uses the bootloader and Rockchip partitioning scheme shipped on your device's onboard flash memory.
+     This approach uses the bootloader and Rockchip partitioning scheme shipped by the vendor.
 
      *This will not work for devices that have onboard NAND flash instead of an eMMC, as mainline Linux does not have a driver for the Rockchip NAND controller.*
 
