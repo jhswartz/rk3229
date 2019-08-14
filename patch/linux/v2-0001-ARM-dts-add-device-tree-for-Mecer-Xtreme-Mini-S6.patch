@@ -1,8 +1,56 @@
+From 529984995b944e85a784280c89a99fbb2f21c62c Mon Sep 17 00:00:00 2001
+From: Justin Swartz <justin.swartz@risingedge.co.za>
+Date: Sun, 11 Aug 2019 22:31:13 +0000
+Subject: [PATCH v2] ARM: dts: add device tree for Mecer Xtreme Mini S6
+
+The Mecer Xtreme Mini S6 features a Rockchip RK3229 SoC,
+1GB DDR3 RAM, 8GB eMMC, MicroSD port, 10/100Mbps Ethernet,
+Realtek 8723BS WLAN module, 2 x USB 2.0 ports, HDMI output,
+and S/PDIF output.
+
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+---
+ .../devicetree/bindings/arm/rockchip.yaml          |   5 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ arch/arm/boot/dts/Makefile                         |   1 +
+ arch/arm/boot/dts/rk3229-xms6.dts                  | 283 +++++++++++++++++++++
+ 4 files changed, 291 insertions(+)
+ create mode 100644 arch/arm/boot/dts/rk3229-xms6.dts
+
+diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
+index 34865042f4e4..4abd91c2b0bd 100644
+--- a/Documentation/devicetree/bindings/arm/rockchip.yaml
++++ b/Documentation/devicetree/bindings/arm/rockchip.yaml
+@@ -329,6 +329,11 @@ properties:
+               - khadas,edge-v
+           - const: rockchip,rk3399
+ 
++      - description: Mecer Xtreme Mini S6
++        items:
++          - const: mecer,xms6
++          - const: rockchip,rk3229
++
+       - description: mqmaker MiQi
+         items:
+           - const: mqmaker,miqi
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 6992bbbbffab..97992fccfc3d 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -549,6 +549,8 @@ patternProperties:
+     description: mCube
+   "^meas,.*":
+     description: Measurement Specialties
++  "^mecer,.*":
++    description: Mustek Limited
+   "^mediatek,.*":
+     description: MediaTek Inc.
+   "^megachips,.*":
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index dab2914fa293..6fbd7c304f62 100644
+index 9159fa2cea90..4567c0b045c2 100644
 --- a/arch/arm/boot/dts/Makefile
 +++ b/arch/arm/boot/dts/Makefile
-@@ -902,6 +902,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
+@@ -905,6 +905,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
  	rk3188-radxarock.dtb \
  	rk3228-evb.dtb \
  	rk3229-evb.dtb \
@@ -12,10 +60,10 @@ index dab2914fa293..6fbd7c304f62 100644
  	rk3288-fennec.dtb \
 diff --git a/arch/arm/boot/dts/rk3229-xms6.dts b/arch/arm/boot/dts/rk3229-xms6.dts
 new file mode 100644
-index 000000000000..9b666fa66292
+index 000000000000..4b6ab4954dd4
 --- /dev/null
 +++ b/arch/arm/boot/dts/rk3229-xms6.dts
-@@ -0,0 +1,286 @@
+@@ -0,0 +1,283 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -24,13 +72,8 @@ index 000000000000..9b666fa66292
 +#include "rk3229.dtsi"
 +
 +/ {
-+	model = "Rockchip RK3229 (Mecer Xtreme Mini S6)";
-+	compatible = "rockchip,rk3229-xms6", "rockchip,rk3229";
-+
-+	memory@60000000 {
-+		device_type = "memory";
-+		reg = <0x60000000 0x40000000>;
-+	};
++	model = "Mecer Xtreme Mini S6";
++	compatible = "mecer,xms6", "rockchip,rk3229";
 +
 +	dc_12v: dc-12v-regulator {
 +		compatible = "regulator-fixed";
@@ -46,6 +89,20 @@ index 000000000000..9b666fa66292
 +		clock-frequency = <125000000>;
 +		clock-output-names = "ext_gmac";
 +		#clock-cells = <0>;
++	};
++
++	memory@60000000 {
++		device_type = "memory";
++		reg = <0x60000000 0x40000000>;
++	};
++
++	power-led {
++		compatible = "gpio-leds";
++
++		blue {
++			gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>;
++			default-state = "on";
++		};
 +	};
 +
 +	vcc_host: vcc-host-regulator {
@@ -120,67 +177,28 @@ index 000000000000..9b666fa66292
 +		regulator-always-on;
 +		regulator-boot-on;
 +	};
-+
-+	power-led {
-+		compatible = "gpio-leds";
-+
-+		blue {
-+			gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>;
-+			default-state = "on";
-+		};
-+	};
 +};
 +
 +&cpu0 {
-+	clock-frequency = <1464000000>;
 +	cpu-supply = <&vdd_arm>;
 +};
 +
 +&cpu1 {
-+	clock-frequency = <1464000000>;
 +	cpu-supply = <&vdd_arm>;
 +};
 +
 +&cpu2 {
-+	clock-frequency = <1464000000>;
 +	cpu-supply = <&vdd_arm>;
 +};
 +
 +&cpu3 {
-+	clock-frequency = <1464000000>;
 +	cpu-supply = <&vdd_arm>;
-+};
-+
-+&vop {
-+	status = "okay";
-+};
-+
-+&vop_mmu {
-+	status = "okay";
-+};
-+
-+&iep_mmu {
-+	status = "okay";
-+};
-+
-+&hdmi {
-+	status = "okay";
-+};
-+
-+&hdmi_phy {
-+	status = "okay";
 +};
 +
 +&emmc {
 +	cap-mmc-highspeed;
 +	disable-wp;
 +	non-removable;
-+	status = "okay";
-+};
-+
-+&sdmmc {
-+	cap-mmc-highspeed;
-+	disable-wp;
 +	status = "okay";
 +};
 +
@@ -199,7 +217,8 @@ index 000000000000..9b666fa66292
 +		#size-cells = <0>;
 +
 +		phy: phy@0 {
-+			compatible = "ethernet-phy-id1234.d400", "ethernet-phy-ieee802.3-c22";
++			compatible = "ethernet-phy-id1234.d400",
++			             "ethernet-phy-ieee802.3-c22";
 +			reg = <0>;
 +			clocks = <&cru SCLK_MAC_PHY>;
 +			resets = <&cru SRST_MACPHY>;
@@ -210,6 +229,18 @@ index 000000000000..9b666fa66292
 +
 +&gpu {
 +	mali-supply = <&vdd_log>;
++	status = "okay";
++};
++
++&hdmi {
++	status = "okay";
++};
++
++&hdmi_phy {
++	status = "okay";
++};
++
++&iep_mmu {
 +	status = "okay";
 +};
 +
@@ -237,25 +268,26 @@ index 000000000000..9b666fa66292
 +	status = "okay";
 +};
 +
-+&tsadc {
-+	rockchip,hw-tshut-mode = <0>;
++&sdmmc {
++	cap-mmc-highspeed;
++	disable-wp;
 +	status = "okay";
 +};
 +
-+&uart2 {
-+	pinctrl-0 = <&uart21_xfer>;
++&tsadc {
++	rockchip,hw-tshut-mode = <0>;
 +	status = "okay";
 +};
 +
 +&u2phy0 {
 +	status = "okay";
 +
-+	u2phy0_otg: otg-port {
++	u2phy0_host: host-port {
 +		phy-supply = <&vcc_host>;
 +		status = "okay";
 +	};
 +
-+	u2phy0_host: host-port {
++	u2phy0_otg: otg-port {
 +		phy-supply = <&vcc_host>;
 +		status = "okay";
 +	};
@@ -264,15 +296,20 @@ index 000000000000..9b666fa66292
 +&u2phy1 {
 +	status = "okay";
 +
-+	u2phy1_otg: otg-port {
-+		phy-supply = <&vcc_host>;
-+		status = "okay";
-+	};
-+
 +	u2phy1_host: host-port {
 +		phy-supply = <&vcc_host>;
 +		status = "okay";
 +	};
++
++	u2phy1_otg: otg-port {
++		phy-supply = <&vcc_host>;
++		status = "okay";
++	};
++};
++
++&uart2 {
++	pinctrl-0 = <&uart21_xfer>;
++	status = "okay";
 +};
 +
 +&usb_host0_ehci {
@@ -302,3 +339,14 @@ index 000000000000..9b666fa66292
 +&usb_otg {
 +	status = "okay";
 +};
++
++&vop {
++	status = "okay";
++};
++
++&vop_mmu {
++	status = "okay";
++};
+-- 
+2.11.0
+
