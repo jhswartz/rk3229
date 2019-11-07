@@ -60,5 +60,5 @@ If you choose to follow this guide, think for yourself.
 
 Thank you to the following people for their assistance in making this process possible.
 
-- Heiko Stübner
-- Fabio Bassa
+- Heiko Stübner, for answers and recommendations
+- Fabio Bassa, for testing
