@@ -1,8 +1,10 @@
 # Unyoking my RK3229 devices
 
-This documentation, written purely for my own reference, details my experiences in installing GNU/Linux on a few devices that are based on Rockchip's RK3229 System-on-Chip.
+### Introduction
 
-If you choose to follow this guide, think for yourself.
+This documentation details my experience in installing *mainline versions of OP-TEE, U-Boot, Linux and Devuan* on a few devices that are based on Rockchip's RK3229 System-on-Chip.
+
+If you choose to follow this guide, please think for yourself and acknowledge that you take full responsibility for your own actions. If you choose to log an issue, please provide a description of the system you are using for cross-compilation along with the appropriate build logs and a clear explanation of the problem you are experiencing.
 
 
 ### Documentation
