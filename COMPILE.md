@@ -44,7 +44,7 @@ $ git checkout -b v2019.07-rc4/rk3229
 $ patch -Np1 < ../../patch/u-boot/enable-arch-timer.patch 
 ```
 
-Apply the following patch only if your device does not have an eMMC, like the MXQ 4K and MXQ Pro 4K, or it has an eMMC that is not detected by U-Boot in its present state.
+*Apply the following patch only if your device does not have an eMMC, like the MXQ 4K and MXQ Pro 4K, or it has an eMMC that is not detected by U-Boot in its present state.*
 
 ```
 $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
@@ -65,11 +65,8 @@ $ cat spl/u-boot-spl.bin >> loader.img
 
 ```
 $ cd $BUILD
-$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+$ git clone --branch v5.4 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
 $ cd linux
-$ git checkout v5.3-rc3
-$ git checkout -b v5.3-rc3/rk3229
-$ patch -Np1 < ../../patch/linux/v2-0001-ARM-dts-add-device-tree-for-Mecer-Xtreme-Mini-S6.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
 $ build build-zImage.log -j2 zImage
