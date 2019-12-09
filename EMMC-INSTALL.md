@@ -240,7 +240,7 @@ timeout 5
 label default
         fdt /dtb/rk3229-xms6.dtb
         linux /zImage
-        append console=ttyS2,1500000n8 console=tty0 video=HDMI-A-1:1920x1080@60 ignore_loglevel debug rw root=/dev/mmcblk1p5 rootfstype=ext2 rootwait
+	append console=tty0 console=ttyS2,1500000n8 drm.debug=0x0e drm.edid_firmware=edid/1920x1080.bin video=HDMI-A-1:e ignore_loglevel debug rw root=/dev/mmcblk1p5 rootfstype=ext2 rootwait
 ^D
 # umount $BOOT
 ```
