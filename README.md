@@ -1,4 +1,4 @@
-# Unyoking my RK3229 devices
+# Build OP-TEE, U-Boot and Linux for RK3229
 
 ### Introduction
 
@@ -43,14 +43,7 @@ If you choose to follow this guide, please think for yourself and acknowledge th
     | Onboard Flash Partition Replacement  | OK      | Unresponsive after 30 minutes |
 
 
-- #### MXQ 4K
-    | Procedure                            | Status         | Remarks                                       |
-    |--------------------------------------|----------------|-----------------------------------------------|
-    | U-Boot + Linux Installation (eMMC)   | Not Applicable | Device does not have an eMMC                  |
-    | U-Boot + Linux Installation (SD/MMC) | OK             | -                                             |
-    | Onboard Flash Partition Replacement  | Pending        | No kernel driver for Rockchip NAND controller |
-
-- #### MXQ-Pro 4K
+- #### MXQ 4K / MXQ-Pro 4K
     | Procedure                            | Status         | Remarks                                       |
     |--------------------------------------|----------------|-----------------------------------------------|
     | U-Boot + Linux Installation (eMMC)   | Not Applicable | Device does not have an eMMC                  |

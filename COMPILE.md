@@ -67,6 +67,7 @@ $ cat spl/u-boot-spl.bin >> loader.img
 $ cd $BUILD
 $ git clone --branch v5.4 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
 $ cd linux
+$ patch -Np1 < ../../patch/linux/0001-clk-rockchip-fix-incorrect-configuration-of-rk3228-a.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
 $ build build-zImage.log -j2 zImage
