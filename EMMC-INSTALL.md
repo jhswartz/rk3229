@@ -45,7 +45,7 @@ Boot into the proprietary loader's ROCKUSB mode, and then switch to MASKROM mode
 
 ### Write U-Boot to the eMMC
 ```
-# rkdeveloptool wl 0x0040 loader.img 
+# rkdeveloptool wl 0x0040 idbloader.img
 # rkdeveloptool wl 0x4000 u-boot.itb 
 ```
 

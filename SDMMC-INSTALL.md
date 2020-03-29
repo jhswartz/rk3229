@@ -18,7 +18,7 @@ Insert the SD card into your host machine, and substitute *mmcblk0* with the blo
 ```
 # cd $BUILD/u-boot
 # dd if=/dev/zero of=/dev/mmcblk0 bs=4M count=3
-# dd if=loader.img of=/dev/mmcblk0 bs=512 seek=64
+# dd if=idbloader.img of=/dev/mmcblk0 bs=512 seek=64
 # dd if=u-boot.itb of=/dev/mmcblk0 bs=512 seek=16384
 ```
 

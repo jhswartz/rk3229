@@ -28,7 +28,7 @@ $ export CROSS_COMPILE=arm-linux-gnueabihf-
 $ cd $BUILD
 $ git clone https://github.com/OP-TEE/optee_os.git
 $ cd optee_os
-$ git checkout 3.5.0
+$ git checkout -b 3.7.0/rk3229 3.7.0
 $ build build-optee.log CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 DEBUG=1 PLATFORM=rockchip-rk322x -j2
 ```
 
@@ -39,9 +39,9 @@ $ build build-optee.log CFG_TEE_BENCHMARK=n CFG_TEE_CORE_LOG_LEVEL=3 DEBUG=1 PLA
 $ cd $BUILD
 $ git clone git://git.denx.de/u-boot.git
 $ cd u-boot
-$ git checkout v2019.07-rc4
-$ git checkout -b v2019.07-rc4/rk3229
-$ patch -Np1 < ../../patch/u-boot/enable-arch-timer.patch 
+$ git checkout -b v2020.01/rk3229 v2020.01
+$ cp ../optee_os/out/arm-plat-rockchip/core/tee-pager.bin tee.bin
+$ patch -Np1 < ../../patch/u-boot/fix_broken_sdram_size_calculation.patch
 ```
 
 *Apply the following patch only if your device does not have an eMMC, like the MXQ 4K and MXQ Pro 4K, or it has an eMMC that is not detected by U-Boot in its present state.*
@@ -51,13 +51,9 @@ $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
 ```
 
 ```
-$ cp ../optee_os/out/arm-plat-rockchip/core/tee-pager.bin tee.bin
-$ cp ../../config/u-boot.config .config
-$ make oldconfig
+$ patch -Np0 < ../../patch/u-boot/xms6-rk3229_defconfig.patch
+$ make xms6-rk3229_defconfig
 $ build build-uboot.log -j2 
-$ build build-itb.log u-boot.itb -j2
-$ tools/mkimage -n rk322x -T rksd -d tpl/u-boot-tpl.bin loader.img
-$ cat spl/u-boot-spl.bin >> loader.img 
 ```
 
 
