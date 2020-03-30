@@ -41,7 +41,6 @@ $ git clone git://git.denx.de/u-boot.git
 $ cd u-boot
 $ git checkout -b v2020.01/rk3229 v2020.01
 $ cp ../optee_os/out/arm-plat-rockchip/core/tee-pager.bin tee.bin
-$ patch -Np1 < ../../patch/u-boot/fix_broken_sdram_size_calculation.patch
 ```
 
 *Apply the following patch only if your device does not have an eMMC, like the MXQ 4K and MXQ Pro 4K, or it has an eMMC that is not detected by U-Boot in its present state.*
@@ -51,6 +50,7 @@ $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
 ```
 
 ```
+$ patch -Np1 < ../../patch/u-boot/fix_broken_sdram_size_calculation.patch
 $ patch -Np0 < ../../patch/u-boot/xms6-rk3229_defconfig.patch
 $ make xms6-rk3229_defconfig
 $ build build-uboot.log -j2 
@@ -61,7 +61,7 @@ $ build build-uboot.log -j2
 
 ```
 $ cd $BUILD
-$ git clone --branch v5.4 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+$ git clone --branch v5.6 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 $ cd linux
 $ patch -Np1 < ../../patch/linux/0001-clk-rockchip-fix-incorrect-configuration-of-rk3228-a.patch
 $ cp ../../config/linux.config .config
