@@ -50,7 +50,7 @@ $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
 ```
 
 ```
-$ patch -Np1 < ../../patch/u-boot/fix_broken_sdram_size_calculation.patch
+$ patch -Np1 < ../../patch/u-boot/0001-rockchip-sdram-fix-DRAM-bank-declaration-around-OP-T.patch
 $ patch -Np0 < ../../patch/u-boot/xms6-rk3229_defconfig.patch
 $ make xms6-rk3229_defconfig
 $ build build-uboot.log -j2 

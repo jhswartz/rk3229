@@ -1,3 +1,29 @@
+From 9fd1a43f8e0b4fec3b056a88f2ac0fa3412a513d Mon Sep 17 00:00:00 2001
+From: Justin Swartz <justin.swartz@risingedge.co.za>
+Date: Tue, 31 Mar 2020 13:50:40 +0000
+Subject: [PATCH] rockchip: sdram: fix DRAM bank declaration around OP-TEE
+
+If OP-TEE is configured, it makes sense to use CONFIG_OPTEE_TZDRAM_BASE
+and CONFIG_OPTEE_TZDRAM_SIZE to declare the boundaries of the TrustZone
+memory reserved for OP-TEE instead of assuming that a 32MB reservation is
+always in place.
+
+In this case, the following calculations may be used to determine the
+boundaries of DRAM bank 0 and 1 which surround the TrustZone reservation:
+
+    [DRAM bank 0]
+        base = CONFIG_SYS_DRAM_BASE
+        size = CONFIG_OPTEE_TZDRAM_BASE - CONFIG_SYS_SDRAM_BASE
+
+    [DRAM bank 1]
+        base = CONFIG_OPTEE_TZDRAM_BASE + CONFIG_OPTEE_TZDRAM_SIZE
+        size = top of memory - base of DRAM bank 1
+
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+---
+ arch/arm/mach-rockchip/sdram.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
 diff --git a/arch/arm/mach-rockchip/sdram.c b/arch/arm/mach-rockchip/sdram.c
 index 530644c043..def2c23294 100644
 --- a/arch/arm/mach-rockchip/sdram.c
@@ -25,3 +51,6 @@ index 530644c043..def2c23294 100644
  	}
  #else
  	gd->bd->bi_dram[0].start = CONFIG_SYS_SDRAM_BASE;
+-- 
+2.11.0
+
