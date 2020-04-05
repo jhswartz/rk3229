@@ -26,7 +26,7 @@ If you choose to follow this guide, please think for yourself and acknowledge th
 
 - #### Partition Replacement
 
-     This approach uses the bootloader and Rockchip partitioning scheme shipped by the vendor.
+     This approach uses the bootloader and Rockchip partitioning scheme shipped by the vendor. I do not pursue this approach since enjoying success via Full Installation. 
 
      *This will not work for devices that have onboard NAND flash instead of an eMMC, as mainline Linux does not have a driver for the Rockchip NAND controller.*
 
@@ -57,7 +57,6 @@ If you choose to follow this guide, please think for yourself and acknowledge th
     - All 4 cores brought up via PSCI.
 
 - #### Ethernet
-
     - 10/100Mbps Full Duplex.
 
 - #### GPU
@@ -72,6 +71,9 @@ If you choose to follow this guide, please think for yourself and acknowledge th
 
 - #### USB
     - Host and OTG modes.
+
+- #### Wireless
+    - WLAN provided by a RTL8723BS attached via SDIO works using the r8723bs staging driver, at least for the Mecer Xtreme Mini S6.
 
 
 ### Acknowledgement

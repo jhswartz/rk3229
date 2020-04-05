@@ -1,0 +1,61 @@
+From ca214b6af03bb9060b4505ace73029ba742040ac Mon Sep 17 00:00:00 2001
+From: Justin Swartz <justin.swartz@risingedge.co.za>
+Date: Sun, 5 Apr 2020 00:32:35 +0000
+Subject: [PATCH] ARM: dts: enable WLAN for Mecer Xtreme Mini S6
+
+The Mecer Xtreme Mini S6 features a wireless module, based on a
+Realtek 8723BS, which provides WLAN and Bluetooth connectivity via
+SDIO and UART interfaces respectively.
+
+Define a simple MMC power sequence that declares the GPIO pins
+connected to the module's WLAN Disable and Bluetooth Disable pins
+as active low reset signals, because both signals must be deasserted
+for WLAN radio operation.
+
+Configure the host's SDIO interface for High Speed mode with 1.8v
+I/O signalling and IRQ detection over a 4-bit wide bus.
+
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+---
+ arch/arm/boot/dts/rk3229-xms6.dts | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/arch/arm/boot/dts/rk3229-xms6.dts b/arch/arm/boot/dts/rk3229-xms6.dts
+index 679fc2b00..cdfcef41b 100644
+--- a/arch/arm/boot/dts/rk3229-xms6.dts
++++ b/arch/arm/boot/dts/rk3229-xms6.dts
+@@ -39,6 +39,12 @@
+ 		};
+ 	};
+ 
++	sdio_pwrseq: sdio-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&gpio2 26 GPIO_ACTIVE_LOW>,
++		              <&gpio2 29 GPIO_ACTIVE_LOW>;
++	};
++
+ 	vcc_host: vcc-host-regulator {
+ 		compatible = "regulator-fixed";
+ 		enable-active-high;
+@@ -202,6 +208,18 @@
+ 	status = "okay";
+ };
+ 
++&sdio {
++	bus-width = <4>;
++	cap-sd-highspeed;
++	cap-sdio-irq;
++	disable-wp;
++	mmc-pwrseq = <&sdio_pwrseq>;
++	non-removable;
++	num-slots = <1>;
++	vqmmc-supply = <&vccio_1v8>;
++	status = "okay";
++};
++
+ &sdmmc {
+ 	cap-mmc-highspeed;
+ 	disable-wp;
+-- 
+2.11.0
+
