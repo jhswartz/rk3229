@@ -1,0 +1,31 @@
+From acfbdec76244d7885fbd9e683f33f4a9f83388bd Mon Sep 17 00:00:00 2001
+From: Justin Swartz <justin.swartz@risingedge.co.za>
+Date: Mon, 6 Apr 2020 10:54:53 +0000
+Subject: [PATCH] ARM: dts: remove disable-wp from rk3229-xms6 emmc
+
+Remove the disable-wp attribute from &emmc as it is, according to
+Documentation/devicetree/bindings/mmc/mmc-controller.yaml:
+
+    "Not used in combination with eMMC or SDIO."
+
+Suggested-by: Johan Jonker <jbx6244@gmail.com>
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+---
+ arch/arm/boot/dts/rk3229-xms6.dts | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/rk3229-xms6.dts b/arch/arm/boot/dts/rk3229-xms6.dts
+index 6890af0b7..e75624d46 100644
+--- a/arch/arm/boot/dts/rk3229-xms6.dts
++++ b/arch/arm/boot/dts/rk3229-xms6.dts
+@@ -137,7 +137,6 @@
+ 
+ &emmc {
+ 	cap-mmc-highspeed;
+-	disable-wp;
+ 	non-removable;
+ 	status = "okay";
+ };
+-- 
+2.11.0
+

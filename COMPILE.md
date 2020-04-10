@@ -65,6 +65,7 @@ $ git clone --branch v5.6 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/gi
 $ cd linux
 $ patch -Np1 < ../../patch/linux/0001-clk-rockchip-fix-incorrect-configuration-of-rk3228-a.patch
 $ patch -Np1 < ../../patch/linux/0001-ARM-dts-enable-WLAN-for-Mecer-Xtreme-Mini-S6.patch
+$ patch -Np1 < ../../patch/linux/0001-ARM-dts-remove-disable-wp-from-rk3229-xms6-emmc.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
 $ build build-zImage.log -j2 zImage
