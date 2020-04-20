@@ -1,0 +1,37 @@
+From 5495e450200a19cfe96f64b159302605b6aaf8f2 Mon Sep 17 00:00:00 2001
+From: Justin Swartz <justin.swartz@risingedge.co.za>
+Date: Sun, 19 Apr 2020 09:07:26 +0000
+Subject: [PATCH v5 1/1] ARM: dts: rockchip: add rga node for rk322x
+
+Add a node to define the presence of RGA, a 2D raster graphic
+acceleration unit.
+
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+---
+ arch/arm/boot/dts/rk322x.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/arch/arm/boot/dts/rk322x.dtsi b/arch/arm/boot/dts/rk322x.dtsi
+index 4e90efdc9..ce88f5bd6 100644
+--- a/arch/arm/boot/dts/rk322x.dtsi
++++ b/arch/arm/boot/dts/rk322x.dtsi
+@@ -621,6 +621,16 @@
+ 		status = "disabled";
+ 	};
+ 
++	rga: rga@20060000 {
++		compatible = "rockchip,rk3228-rga", "rockchip,rk3288-rga";
++		reg = <0x20060000 0x1000>;
++		interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA>;
++		clock-names = "aclk", "hclk", "sclk";
++		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
++		reset-names = "core", "axi", "ahb";
++	};
++
+ 	iep_mmu: iommu@20070800 {
+ 		compatible = "rockchip,iommu";
+ 		reg = <0x20070800 0x100>;
+-- 
+2.11.0
+
