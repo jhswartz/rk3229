@@ -18,7 +18,7 @@ If you choose to follow this guide, please think for yourself and acknowledge th
 
      This approach does not rely on any software that was shipped by the vendor.
 
-     *This will not work for devices that have onboard NAND flash instead of an eMMC, as neither mainline U-Boot nor mainline Linux have support for the Rockchip NAND controller.*
+     *Installation to onboard flash on devices that feature NAND instead of an eMMC will not work, as neither mainline U-Boot nor mainline Linux have support for the Rockchip NAND controller. For such devices, follow the installation procedure for SD/MMC instead.*
 
      - [U-Boot + Linux Installation (eMMC)](EMMC-INSTALL.md)
      - [U-Boot + Linux Installation (SD/MMC)](SDMMC-INSTALL.md)
