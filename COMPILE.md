@@ -43,7 +43,7 @@ $ git checkout -b v2020.01/rk3229 v2020.01
 $ cp ../optee_os/out/arm-plat-rockchip/core/tee-pager.bin tee.bin
 ```
 
-*Apply the following patch only if your device does not have an eMMC, like the MXQ 4K and MXQ Pro 4K, or it has an eMMC that is not detected by U-Boot in its present state.*
+*Apply the following patch only if your device does not have an eMMC (such as the MXQ 4K and MXQ Pro 4K) or if it has an eMMC that is not detected by U-Boot in its present state.*
 
 ```
 $ patch -Np1 < ../../patch/u-boot/sdmmc-dm-pre-reloc.patch
@@ -61,10 +61,8 @@ $ build build-uboot.log -j2
 
 ```
 $ cd $BUILD
-$ git clone --branch v5.7 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+$ git clone --branch v5.8 --depth 1 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 $ cd linux
-$ patch -Np1 < ../../patch/linux/0001-ARM-dts-enable-WLAN-for-Mecer-Xtreme-Mini-S6.patch
-$ patch -Np1 < ../../patch/linux/0001-ARM-dts-rockchip-add-rga-node-for-rk322x.patch
 $ cp ../../config/linux.config .config
 $ make oldconfig
 $ build build-zImage.log -j2 zImage
